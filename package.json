@@ -1,0 +1,27 @@
+{
+  "name": "imghdr",
+  "version": "0.1.0",
+  "description": "Determines the type of image.",
+  "main": "imghdr.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^2.1.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "imghdr",
+    "file",
+    "signatures",
+    "magic",
+    "number",
+    "image",
+    "type"
+  ],
+  "author": "solome",
+  "license": "ISC"
+}
