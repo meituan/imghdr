@@ -23,5 +23,13 @@
     "type"
   ],
   "author": "solome",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mt-node/imghdr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mt-node/imghdr/issues"
+  },
+  "homepage": "https://github.com/mt-node/imghdr"
 }

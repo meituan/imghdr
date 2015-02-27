@@ -8,12 +8,11 @@
 
 var fs = require('fs');
 
+
 var tests = [];
 
 exports.tests = tests;
 
-
-exports.printTests = printTests;
 
 // 兼容0.11.0以下的node版本
 // fork from https://raw.githubusercontent.com/substack/node-buffer-equal/master/index.js
@@ -56,11 +55,11 @@ function testJPEG(buf) {
 
     // JFIF
     var sigBufJFIF = new Buffer([0x4a, 0x46, 0x49, 0x46]);
-    if (bufferEqual(testSigBuf, sigBuf)) return 'jpeg';
+    if (bufferEqual(testSigBuf, sigBufJFIF)) return 'jpeg';
 
     // Exif
     var sigBufExif = new Buffer([0x45, 0x78, 0x69, 0x66]);
-    if (bufferEqual(testSigBuf, sigBuf)) return 'jpeg';
+    if (bufferEqual(testSigBuf, sigBufExif)) return 'jpeg';
 
     return false;
 }
@@ -94,7 +93,7 @@ tests.push(testGIF);
 function checkImgExt(imgPath, ext) {
     // jpg和jpeg后缀虽不同，但表示同种图片类型
     if (ext === 'jpg') ext = 'jpeg';
-    var imgBuf = fs.readSync(imgPath, {flag: 'r'});
+    var imgBuf = fs.readFileSync(imgPath, {flag: 'r'});
     for (var i = 0; i < tests.length; i++) {
         var test = tests[i];
         if (typeof test === 'function' && test(imgBuf) === ext) {
@@ -113,7 +112,13 @@ exports.checkImgExt = checkImgExt;
  * @return 获取图片文件的真实类型，如果无法识别则返回false。
  */
 function what(imgPath) {
-    var imgBuf = fs.readSync(imgPath, {flag: 'r'});
+    var imgBuf;
+    if (Buffer.isBuffer(imgPath)) {
+        imgBuf = imgPath;
+    } else {
+        imgBuf = fs.readFileSync(imgPath, {flag: 'r'});
+    }
+
     for (var i = 0; i < tests.length; i++) {
         var test = tests[i];
         if (typeof test == 'function') {
