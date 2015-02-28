@@ -22,10 +22,10 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mt-node/imghdr.git"
+    "url": "https://github.com/meituan/imghdr.git"
   },
   "bugs": {
-    "url": "https://github.com/mt-node/imghdr/issues"
+    "url": "https://github.com/meituan/imghdr/issues"
   },
-  "homepage": "https://github.com/mt-node/imghdr"
+  "homepage": "https://github.com/meituan/imghdr"
 }
