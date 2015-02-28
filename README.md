@@ -1,6 +1,10 @@
 
 ## imghdr
 
+ [![Build Status](https://api.travis-ci.org/meituan/imghdr.svg)](http://travis-ci.org/meituan/imghdr)
+ [![NPM Version](http://img.shields.io/npm/v/imghdr.svg?style=flat)](https://www.npmjs.org/package/imghdr)
+ [![NPM Downloads](https://img.shields.io/npm/dm/imghdr.svg?style=flat)](https://www.npmjs.org/package/imghdr)
+
 > The `imghdr` module determines the type of image contained in a file or octet-streams(object of Buffer), inspired by Python's [imghdr](https://docs.python.org/3.4/library/imghdr.html) module.
 
 The `imghdr` module defines the following function:
