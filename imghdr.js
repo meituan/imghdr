@@ -80,10 +80,53 @@ function testGIF(buf) {
         if (bufferEqual(testSigBuf, sigBuf)) return 'gif';
     }
 
+    return false;
 }
 
 tests.push(testGIF);
 
+// TIFF Tagged Image File Format
+function testTIFF(buf) {
+    var sigBufSet = [
+        new Buffer([0x4D, 0x4D]),
+        new Buffer([0x49, 0x49])
+    ];
+    for (var i = 0; i < sigBufSet.length; i++) {
+        var sigBuf = sigBufSet[i];
+        var len = sigBuf.length;
+        var testSigBuf = buf.slice(0, len);
+        if (bufferEqual(testSigBuf, sigBuf)) return 'tiff';
+    }
+
+    return false;
+}
+
+tests.push(testTIFF);
+
+// BMP
+function testBMP(buf) {
+    var sigBuf = new Buffer([0x42, 0x4d]);
+    var len = sigBuf.length;
+    var testSigBuf = buf.slice(0, len);
+
+    return bufferEqual(testSigBuf, sigBuf) ? 'bmp' : false;
+}
+
+tests.push(testBMP);
+
+// WEBP
+function testWEBP(buf) {
+    var sigBufRIFF = new Buffer([0x52, 0x49, 0x46, 0x46]);
+    var sigBufWEBP = new Buffer([0x57, 0x45, 0x42, 0x50]);
+
+    var testSigBuf = buf.slice(0, 4);
+    if (!bufferEqual(testSigBuf, sigBufRIFF)) return false;
+
+    testSigBuf = buf.slice(8, 12);
+    return bufferEqual(testSigBuf, sigBufWEBP) ? 'webp' : false;
+}
+
+tests.push(testWEBP);
 /**
  * 测试图片的后缀名是否准确
  * @param imgPath 图片路径
@@ -119,6 +162,7 @@ function what(imgPath) {
         imgBuf = fs.readFileSync(imgPath, {flag: 'r'});
     }
 
+    if(imgBuf.length <= 0) return false;
     for (var i = 0; i < tests.length; i++) {
         var test = tests[i];
         if (typeof test == 'function') {
