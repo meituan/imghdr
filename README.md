@@ -7,6 +7,8 @@
 
 > The `imghdr` module determines the type of image contained in a file or octet-streams(object of Buffer), inspired by Python's [imghdr](https://docs.python.org/3.4/library/imghdr.html) module.
 
+## API
+
 The `imghdr` module defines the following function:
 ### imghdr.what(imgPath)
 >Tests the image data contained in the file named by `imgPath`, and returns a string describing the image type. `imgPath` can be a object of [Buffer](http://nodejs.org/api/buffer.html).
@@ -24,7 +26,11 @@ You can extend the list of file types imghdr can recognize by appending to this 
 ### imghdr.tests
 >A list of functions performing the individual tests. Each function takes a argument: the octet-streams(object of Buffer).The test function should return a string describing the image type if the test succeeded, or `flase` if it failed.
 
-### Reference
+## Reference
 - [http://www.filesignatures.net](http://www.filesignatures.net/index.php?page=all)
-- http://www.garykessler.net/library/file_sigs.html
-- https://docs.python.org/3.4/library/imghdr.html
+- <http://www.garykessler.net/library/file_sigs.html>
+- <https://docs.python.org/3.4/library/imghdr.html>
+
+## LICENSE
+
+MIT
