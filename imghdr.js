@@ -1,18 +1,13 @@
 /*jshint camelcase:false, node:true */
-
 /**
  * Recognize image file formats based on their first few bytes.
  */
-
  'use strict';
 
 var fs = require('fs');
-
-
 var tests = [];
 
 exports.tests = tests;
-
 
 // 兼容0.11.0以下的node版本
 // fork from https://raw.githubusercontent.com/substack/node-buffer-equal/master/index.js
@@ -27,18 +22,15 @@ function bufferEqual(a, b) {
     return true;
 };
 
-
 /* Subroutines per image file type. */
-
 // PNG Portable Network Graphics
 function testPNG(buf) {
     var sigBuf = new Buffer([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     var len = sigBuf.length;
     var testSigBuf = buf.slice(0, len);
 
-    return bufferEqual(testSigBuf, sigBuf) ? 'png' : false;
+    return bufferEqual(testSigBuf, sigBuf) ? ['png'] : false;
 }
-
 tests.push(testPNG);
 
 // JPEG data in `JFIF` or `Exif` format
@@ -55,15 +47,14 @@ function testJPEG(buf) {
 
     // JFIF
     var sigBufJFIF = new Buffer([0x4a, 0x46, 0x49, 0x46]);
-    if (bufferEqual(testSigBuf, sigBufJFIF)) return 'jpeg';
+    if (bufferEqual(testSigBuf, sigBufJFIF)) return ['jpg', 'jpeg'];
 
     // Exif
     var sigBufExif = new Buffer([0x45, 0x78, 0x69, 0x66]);
-    if (bufferEqual(testSigBuf, sigBufExif)) return 'jpeg';
+    if (bufferEqual(testSigBuf, sigBufExif)) return ['jpg', 'jpeg'];
 
     return false;
 }
-
 tests.push(testJPEG);
 
 // GIF (`GIF87a` and `GIF89a` variants)
@@ -77,12 +68,11 @@ function testGIF(buf) {
         var sigBuf = sigBufSet[i];
         var len = sigBuf.length;
         var testSigBuf = buf.slice(0, len);
-        if (bufferEqual(testSigBuf, sigBuf)) return 'gif';
+        if (bufferEqual(testSigBuf, sigBuf)) return ['gif'];
     }
 
     return false;
 }
-
 tests.push(testGIF);
 
 // TIFF Tagged Image File Format
@@ -95,12 +85,11 @@ function testTIFF(buf) {
         var sigBuf = sigBufSet[i];
         var len = sigBuf.length;
         var testSigBuf = buf.slice(0, len);
-        if (bufferEqual(testSigBuf, sigBuf)) return 'tiff';
+        if (bufferEqual(testSigBuf, sigBuf)) return ['tiff'];
     }
 
     return false;
 }
-
 tests.push(testTIFF);
 
 // BMP
@@ -109,9 +98,8 @@ function testBMP(buf) {
     var len = sigBuf.length;
     var testSigBuf = buf.slice(0, len);
 
-    return bufferEqual(testSigBuf, sigBuf) ? 'bmp' : false;
+    return bufferEqual(testSigBuf, sigBuf) ? ['bmp'] : false;
 }
-
 tests.push(testBMP);
 
 // WEBP
@@ -123,10 +111,10 @@ function testWEBP(buf) {
     if (!bufferEqual(testSigBuf, sigBufRIFF)) return false;
 
     testSigBuf = buf.slice(8, 12);
-    return bufferEqual(testSigBuf, sigBufWEBP) ? 'webp' : false;
+    return bufferEqual(testSigBuf, sigBufWEBP) ? ['webp'] : false;
 }
-
 tests.push(testWEBP);
+
 /**
  * 测试图片的后缀名是否准确
  * @param imgPath 图片路径
@@ -134,19 +122,16 @@ tests.push(testWEBP);
  * @return 后缀名与图片的真实类型相同时返回true；否则，返回false。
  */
 function checkImgExt(imgPath, ext) {
-    // jpg和jpeg后缀虽不同，但表示同种图片类型
-    if (ext === 'jpg') ext = 'jpeg';
     var imgBuf = fs.readFileSync(imgPath, {flag: 'r'});
     for (var i = 0; i < tests.length; i++) {
         var test = tests[i];
-        if (typeof test === 'function' && test(imgBuf) === ext) {
+        if (typeof test === 'function' && test(imgBuf).indexOf(ext) !== -1) {
             return true;
         }
     }
 
     return false;
 }
-
 exports.checkImgExt = checkImgExt;
 
 /**

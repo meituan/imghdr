@@ -1,6 +1,6 @@
 {
-  "name": "imghdr",
-  "version": "0.1.0",
+  "name": "@mtfe/imghdr",
+  "version": "0.1.2",
   "description": "Determines the type of image.",
   "main": "imghdr.js",
   "directories": {
@@ -15,12 +15,8 @@
   },
   "keywords": [
     "imghdr",
-    "file",
-    "signatures",
-    "magic",
-    "number",
-    "image",
-    "type"
+    "file signatures",
+    "magic number"
   ],
   "author": "solome",
   "license": "ISC",

@@ -21,7 +21,7 @@ function testImg(imgPath, type) {
     var what = imghdr.what;
 
     it('test img file for `' + type + '`', function() {
-        assert.equal(what(imgPath), type);
+        assert.notEqual(what(imgPath).indexOf(type), -1);
     });
 }
 
@@ -38,7 +38,7 @@ describe('#what()', function() {
     it('test error ext img', function() {
         var imgPath = __dirname + '/imgtype/sold_out.gif';
         var type = 'gif';
-        assert.notEqual(imghdr.what(imgPath), type);
+        assert.equal(imghdr.what(imgPath).indexOf(type), -1);
     });
 
     it('test empty file(i.e `touch empty.png`)', function() {
