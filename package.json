@@ -1,5 +1,5 @@
 {
-  "name": "@mtfe/imghdr",
+  "name": "imghdr",
   "version": "0.1.2",
   "description": "Determines the type of image.",
   "main": "imghdr.js",
