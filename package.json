@@ -1,6 +1,6 @@
 {
   "name": "imghdr",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Determines the type of image.",
   "main": "imghdr.js",
   "directories": {
@@ -8,10 +8,12 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "istanbul": "^0.3.6",
     "mocha": "^2.1.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
   },
   "keywords": [
     "imghdr",
@@ -19,7 +21,7 @@
     "magic number"
   ],
   "author": "solome",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/meituan/imghdr.git"
