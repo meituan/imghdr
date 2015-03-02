@@ -1,6 +1,6 @@
 {
   "name": "imghdr",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Determines the type of image.",
   "main": "imghdr.js",
   "directories": {

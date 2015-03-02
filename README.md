@@ -7,7 +7,7 @@
 
 > The `imghdr` module determines the type of image contained in a file or octet-streams(object of Buffer), inspired by Python's [imghdr](https://docs.python.org/3.4/library/imghdr.html) module.
 
-##Installation
+## Installation
 
     npm install imghdr
 
