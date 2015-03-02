@@ -9,7 +9,7 @@ var tests = [];
 
 exports.tests = tests;
 
-// 兼容0.11.0以下的node版本
+// 兼容0.11.14以下的node版本
 // fork from https://raw.githubusercontent.com/substack/node-buffer-equal/master/index.js
 function bufferEqual(a, b) {
     if (!Buffer.isBuffer(a)) return undefined;
@@ -29,7 +29,7 @@ function testPNG(buf) {
     var len = sigBuf.length;
     var testSigBuf = buf.slice(0, len);
 
-    return bufferEqual(testSigBuf, sigBuf) ? ['png'] : false;
+    return bufferEqual(testSigBuf, sigBuf) ? ['png'] : [];
 }
 tests.push(testPNG);
 
@@ -41,7 +41,7 @@ function testJPEG(buf) {
     var testSigBuf = buf.slice(0, len);
 
     // JPEG
-    if (!bufferEqual(testSigBuf, sigBuf)) return false;
+    if (!bufferEqual(testSigBuf, sigBuf)) return [];
 
     testSigBuf = buf.slice(6, 10);
 
@@ -71,7 +71,7 @@ function testGIF(buf) {
         if (bufferEqual(testSigBuf, sigBuf)) return ['gif'];
     }
 
-    return false;
+    return [];
 }
 tests.push(testGIF);
 
@@ -88,7 +88,7 @@ function testTIFF(buf) {
         if (bufferEqual(testSigBuf, sigBuf)) return ['tiff'];
     }
 
-    return false;
+    return [];
 }
 tests.push(testTIFF);
 
@@ -98,7 +98,7 @@ function testBMP(buf) {
     var len = sigBuf.length;
     var testSigBuf = buf.slice(0, len);
 
-    return bufferEqual(testSigBuf, sigBuf) ? ['bmp'] : false;
+    return bufferEqual(testSigBuf, sigBuf) ? ['bmp'] : [];
 }
 tests.push(testBMP);
 
@@ -108,55 +108,53 @@ function testWEBP(buf) {
     var sigBufWEBP = new Buffer([0x57, 0x45, 0x42, 0x50]);
 
     var testSigBuf = buf.slice(0, 4);
-    if (!bufferEqual(testSigBuf, sigBufRIFF)) return false;
+    if (!bufferEqual(testSigBuf, sigBufRIFF)) return [];
 
     testSigBuf = buf.slice(8, 12);
-    return bufferEqual(testSigBuf, sigBufWEBP) ? ['webp'] : false;
+    return bufferEqual(testSigBuf, sigBufWEBP) ? ['webp'] : [];
 }
 tests.push(testWEBP);
 
 /**
  * 测试图片的后缀名是否准确
- * @param imgPath 图片路径
- * @param ext 图片使用的后缀
+ * @param {String|Buffer} imgPath image file path or object of Buffer
+ * @param {String} ext image file extension
  * @return 后缀名与图片的真实类型相同时返回true；否则，返回false。
  */
-function checkImgExt(imgPath, ext) {
-    var imgBuf = fs.readFileSync(imgPath, {flag: 'r'});
-    for (var i = 0; i < tests.length; i++) {
-        var test = tests[i];
-        if (typeof test === 'function' && test(imgBuf).indexOf(ext) !== -1) {
-            return true;
-        }
-    }
+function assert(imgPath, ext) {
+    var exts = what(imgPath);
 
-    return false;
+    ext = ext.toLowerCase();
+
+    return (exts.indexOf(ext) === -1) ? false : true;
 }
-exports.checkImgExt = checkImgExt;
+exports.assert = assert;
 
 /**
  * Recognize image headers
- * @param imgPath img file path
- * @return 获取图片文件的真实类型，如果无法识别则返回false。
+ * @param {String|Buffer} imgPath img file path or object of Buffer
+ * @return {Array} 获取图片文件的真实类型可用后缀数组；如果无法识别则返回空数组。
  */
 function what(imgPath) {
     var imgBuf;
+
     if (Buffer.isBuffer(imgPath)) {
         imgBuf = imgPath;
     } else {
         imgBuf = fs.readFileSync(imgPath, {flag: 'r'});
     }
 
-    if(imgBuf.length <= 0) return false;
+    if(imgBuf.length <= 0) return [];
+
     for (var i = 0; i < tests.length; i++) {
         var test = tests[i];
         if (typeof test == 'function') {
-            var type = tests[i](imgBuf);
-            if (type) return type;
+            var exts = tests[i](imgBuf);
+            if (exts.length) return exts;
         }
     }
 
-    return false;
+    return [];
 }
 
 exports.what = what;
