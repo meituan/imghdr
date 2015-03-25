@@ -53,7 +53,7 @@ function testJPEG(buf) {
     var sigBufExif = new Buffer([0x45, 0x78, 0x69, 0x66]);
     if (bufferEqual(testSigBuf, sigBufExif)) return ['jpg', 'jpeg'];
 
-    return false;
+    return [];
 }
 tests.push(testJPEG);
 
