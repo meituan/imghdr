@@ -16,6 +16,17 @@ var testImgSet = [
     {'path': __dirname + '/imgtype/__41241575__5113260.jpg.webp', type: 'webp'}
 ];
 
+var testErrExtImgSet = [
+    {'path': __dirname + '/imgtype/errExtImg/dianying.png', type: 'bmp'},
+    {'path': __dirname + '/imgtype/errExtImg/dianying.gif', type: 'jpeg'},
+    {'path': __dirname + '/imgtype/errExtImg/ktv.png', type: 'tiff'},
+    {'path': __dirname + '/imgtype/errExtImg/loading.png', type: 'gif'},
+    {'path': __dirname + '/imgtype/errExtImg/meishi.tiff', type: 'png'},
+    {'path': __dirname + '/imgtype/errExtImg/novice_guide.png', type: 'jpeg'},
+    {'path': __dirname + '/imgtype/errExtImg/__41241575__5113260.jpg', type: 'webp'}
+
+];
+
 function testImg(imgPath, type) {
     var what = imghdr.what;
 
@@ -24,6 +35,7 @@ function testImg(imgPath, type) {
     });
 }
 
+
 describe('#what()', function() {
 
     it('`what()` exist', function() {
@@ -31,6 +43,10 @@ describe('#what()', function() {
     });
 
     testImgSet.forEach(function(test) {
+        testImg(test['path'], test['type']);
+    });
+
+    testErrExtImgSet.forEach(function(test) {
         testImg(test['path'], test['type']);
     });
 

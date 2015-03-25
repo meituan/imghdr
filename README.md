@@ -62,7 +62,7 @@ function testCustom(buf) {
 imghdr.tests.push(testCustom);
 
 var testBuf = new Buffer([0x49, 0x20, 0x6c, 0x6f, 0x76, 0x65, 0x20, 0x79, 0x6f, 0x75]);
-imghdr.what(testBuf, 'custom');
+imghdr.what(testBuf);
 // => ['custom']
 ```
 
