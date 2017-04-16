@@ -1,6 +1,8 @@
 
 ## imghdr
 
+[![Join the chat at https://gitter.im/meituan/imghdr](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/meituan/imghdr?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
  [![Build Status](https://api.travis-ci.org/meituan/imghdr.svg)](http://travis-ci.org/meituan/imghdr)
  [![NPM Version](http://img.shields.io/npm/v/imghdr.svg?style=flat)](https://www.npmjs.org/package/imghdr)
  [![NPM Downloads](https://img.shields.io/npm/dm/imghdr.svg?style=flat)](https://www.npmjs.org/package/imghdr)
